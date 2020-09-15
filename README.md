@@ -26,3 +26,4 @@ The advances in quantum computing could perhaps shorten the processing speeds, b
 Spreading activation and divergent thought.
 
 ![Flask text decomposition](https://github.com/systemlogos/parallel-breadth-first-adaptation/blob/master/screenshot_1.png?raw=true)
+![Flask oscillating activity](https://github.com/systemlogos/parallel-breadth-first-adaptation/blob/master/parallel-breadth-first.png?raw=true)
