@@ -11,11 +11,11 @@ Please notice that it can also performs activation in multiple depths.
 
 If you want to use this for text generation, add a parse tree filter to the algorithm core - only choose tree branches that correspond to the parse tree. Enable randomness if you want more random searches.
 
-#Morphemes
+# Morphemes
 
 Break the text onto morpheme chunks for more interesting information.
 
-#Waves
+# Waves
 
 Perform Fourrier analysis and break it up onto layers for even more information, down to the neurolinguistic level and neurolinguistic mismatch information. Through analog to digital shifts.
 It was wonderful to discover that the waves produced from this hybrid AI / devirgent thought system would resemble electrophysiological signals this much.
@@ -24,3 +24,5 @@ Perhaps, consciousness is nothing but an emergent property of specifically order
 The advances in quantum computing could perhaps shorten the processing speeds, but the Savitch's theorem has already done that to a great extent. Perhaps. I'm not an authority on the subject.
 
 Spreading activation and divergent thought.
+
+![Flask text decomposition](https://github.com/systemlogos/parallel-breadth-first-adaptation/blob/master/screenshot_1.png?raw=true)
