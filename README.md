@@ -7,7 +7,7 @@ This algorithm can be modified for various real-time shortest path searches, mod
 
 Please notice that it can also performs activation in multiple depths.
 
-#Coherence
+# Coherence
 Text converges towards higher coherence as greater chunk size is selected. Even with a chunk size of two, the text remained very coherent. It was not the case for the chunk size of one. You can change the chunk size in the algorithm settings, and adjust the starting point accordingly.
 The algorithm learns from text, adapts to the weights, and performs spreading activation - the spreading activation process from the neurosciences.
 Chunking certainly augments coherence.
