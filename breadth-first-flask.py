@@ -19,12 +19,8 @@
 import threading
 import random
 
-from matplotlib import pyplot as plt 
-import numpy as np
-
 from flask import Flask
 app = Flask(__name__)
-
 
 n_chunk = [] #n-gram chunks
 graph = {} #Graph dictionary.
@@ -33,14 +29,14 @@ weight = {} #Weight dictionary.
 
 RANDOM_SEARCH = False #Add randomness to the search of the graph: True / False. If you want to explore different paths and mine more data, set this to True.
 RANDOM_SEARCH_RANDOMNESS = 8 #The level of randomness added to the vertex search.
-CHUNK_SIZE = 2 #Split the text to N chunks. Larger chunking leads to more coherent but less creative text, as well as longer outputs.
+CHUNK_SIZE = 1 #Split the text to N chunks. Larger chunking leads to more coherent but less creative text, as well as longer outputs.
 TEXT_DATASET_LOCATION = "file.txt" #File location. Use relatively small text files at a time. You can construct loops and input many text files in parallel.
-start = "energy is" #Start node.
+start = "Energy" #Start node.
 visited = [] #Visited nodes.
 frontierList = [] #List of layers (or frontiers).
 ACTIVATION_DEPTH = 1
-MAX_LEVEL = 50
-LOOP_SEARCH = True
+MAX_LEVEL = False
+LOOP_SEARCH = False
 
 
 #Parse text
@@ -187,7 +183,6 @@ def appendAdjacent(v1, v2):
 
 
 frontierBuffer = []
-frontierActivation = []
 
 #Parallel Breadth-first search. The core of the algorithm. Modify this to add changes in real time.
 def parallelSpreadingActivation():
@@ -217,11 +212,10 @@ def parallelSpreadingActivation():
             for v2 in graph:
                 thread = threading.Thread(target=appendAdjacent(v1, v2))
                 threads.append(thread)
-                thread.start()
+                thread.start()                
                 
         frontier = [v for v in nextNodes if v not in visited]
-        frontierActivation.append(len(frontier))
-        
+
         if frontier == []:
 
             if LOOP_SEARCH == False:
@@ -249,12 +243,8 @@ def parallelSpreadingActivation():
                     
                 frontierBuffer = []
 
+            print(frontier)
             print(" ".join(greatestWeightPath()))
-
-    a = np.array([1, 1])
-    plt.plot(frontierActivation)
-    plt.title("Activity")
-    plt.show()
 
 
 #Greatest weight path between two vertices.
@@ -274,17 +264,25 @@ def greatestWeightPath():
     return listPath
 
 
-def main():
-
+@app.route('/')
+def test():
     print("Splitting text...")
     splitTheText()
     print("Building the graph...")
     buildGraph()
     print("Loading weights...")
-    loadWeights()    
-    print("Starting parallel spreading activation... Computing a real time greatest weight path...")
+    loadWeights()
+    print("Starting parallel spreading activation...")
     parallelSpreadingActivation()
+    print("Building the greatest weight path...")
+    greatestWeightPath()
+    
+    strFrontier = ""
 
+    for i in range(0, len(frontierList)-1):
+            
+        strFrontier = strFrontier + "<b>Layer " + str(i) + "</b><br>" + " ".join(frontierList[i]) + "<br><br>"
 
-if __name__ == "__main__":
-    main()
+    strFrontier = strFrontier + "<br>" + "<b>Greatest weight path:</b> " + " ".join(greatestWeightPath())
+                            
+    return strFrontier
