@@ -33,13 +33,12 @@ weight = {} #Weight dictionary.
 
 RANDOM_SEARCH = False #Add randomness to the search of the graph: True / False. If you want to explore different paths and mine more data, set this to True.
 RANDOM_SEARCH_RANDOMNESS = 8 #The level of randomness added to the vertex search.
-CHUNK_SIZE = 2 #Split the text to N chunks. Larger chunking leads to more coherent but less creative text, as well as longer outputs.
+CHUNK_SIZE = 1 #Split the text to N chunks. Larger chunking leads to more coherent but less creative text, as well as longer outputs.
 TEXT_DATASET_LOCATION = "file.txt" #File location. Use relatively small text files at a time. You can construct loops and input many text files in parallel.
-start = "energy is" #Start node.
+start = "Energy" #Start node.
 visited = [] #Visited nodes.
 frontierList = [] #List of layers (or frontiers).
-ACTIVATION_DEPTH = 1
-MAX_LEVEL = 50
+MAX_LEVEL = 20
 LOOP_SEARCH = True
 
 
@@ -201,10 +200,12 @@ def parallelSpreadingActivation():
     frontier = []
     level = 0
 
+    #Parallel Breadth-first frontier
     frontier.append(start)
+    #Frontier list of frontiers
     frontierList.append([start])
     
-    while (frontier is not []):
+    while (len(frontier) != 0):
 
         if MAX_LEVEL != False:
             if level > MAX_LEVEL:
@@ -221,35 +222,22 @@ def parallelSpreadingActivation():
                 
         frontier = [v for v in nextNodes if v not in visited]
         frontierActivation.append(len(frontier))
-        
-        if frontier == []:
 
-            if LOOP_SEARCH == False:
-                break
             
-            frontierBuffer = []
-            frontierList.append([start])
-            frontierBuffer.append([start])
-            frontier.append(start)
-            nextNodes = []
-            visited = []
-
-        frontierBuffer.append(frontier)
         visited = visited + frontier
+        frontierList.append(frontier)
         
         level = level + 1
-        
-        if level%ACTIVATION_DEPTH == 0:
 
-            #Perform depth computations and selections here
+              
+        print(" ".join(greatestWeightPath())) #Draw the greatest weight path based on the frontier list       
 
-            if frontierBuffer != []:
-                for v in frontierBuffer:
-                    frontierList.append(v)
-                    
-                frontierBuffer = []
-
-            print(" ".join(greatestWeightPath()))
+        if len(frontier) == 0:
+            frontier.append(start)
+            frontierList = []
+            frontierList.append([start])
+            visited = []
+            
 
     a = np.array([1, 1])
     plt.plot(frontierActivation)
