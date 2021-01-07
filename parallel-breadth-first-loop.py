@@ -207,6 +207,8 @@ def parallelSpreadingActivation():
     
     while (len(frontier) != 0):
 
+        print(frontier)
+
         if MAX_LEVEL != False:
             if level > MAX_LEVEL:
                 break
